@@ -13,6 +13,7 @@ namespace TechJobsConsole
             Dictionary<string, string> actionChoices = new Dictionary<string, string>();
             actionChoices.Add("search", "Search");
             actionChoices.Add("list", "List");
+            actionChoices.Add("keyword", "Search by keyword");
 
             // Column options
             Dictionary<string, string> columnChoices = new Dictionary<string, string>();
@@ -49,7 +50,7 @@ namespace TechJobsConsole
                         }
                     }
                 }
-                else // choice is "search"
+                else if(actionChoice.Equals("search"))// choice is "search"
                 {
                     // How does the user want to search (e.g. by skill or employer)
                     string columnChoice = GetUserSelection("Search", columnChoices);
@@ -70,6 +71,13 @@ namespace TechJobsConsole
                         searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
                         PrintJobs(searchResults);
                     }
+                }
+                else
+                {
+                    Console.WriteLine("Enter a keyword to search for.");
+                    var keyword = Console.ReadLine();
+                    var found_jobs = JobData.FindByValue(keyword);
+                    PrintJobs(found_jobs);
                 }
             }
         }
@@ -118,7 +126,31 @@ namespace TechJobsConsole
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("printJobs is not implemented yet");
+            if (someJobs.Count > 0)
+            {
+                foreach (var job in someJobs)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("*****");
+                    Console.WriteLine($"Position Type: {job["position type"]}");
+                    Console.WriteLine($"Name: {job["name"]}");
+                    Console.WriteLine($"Employer: {job["employer"]}");
+                    Console.WriteLine($"Location: {job["location"]}");
+                    Console.WriteLine($"Core Competency: {job["core competency"]}");
+                    Console.WriteLine("*****");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("*****");
+                Console.WriteLine("I'm terribly sorry, but your search");
+                Console.WriteLine("brought forth no results.");
+                Console.WriteLine("*****");
+                Console.WriteLine();
+            }
+           
         }
     }
 }

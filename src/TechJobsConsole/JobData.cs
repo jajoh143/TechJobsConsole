@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System;
 using System.Text;
 
 namespace TechJobsConsole
@@ -9,6 +10,25 @@ namespace TechJobsConsole
     {
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
+
+
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            var jobs = FindAll();
+            var found_jobs = new List<Dictionary<string, string>>();
+            foreach(var x in jobs)
+            {
+                foreach(var y in x.Keys)
+                {
+                    if (x[y].ToLower().Contains(value.ToLower())){
+                       found_jobs.Add(x);
+                       break;
+                    }
+                }
+            }
+            Console.WriteLine("Error, user not found.");
+            return found_jobs;
+        }
 
         public static List<Dictionary<string, string>> FindAll()
         {
